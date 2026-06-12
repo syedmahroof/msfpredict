@@ -1,0 +1,203 @@
+@import 'tailwindcss';
+@import 'tw-animate-css';
+@import url('https://fonts.googleapis.com/css2?family=Barlow+Condensed:ital,wght@0,400;0,600;0,700;0,800;0,900;1,700;1,800&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;1,9..40,400&display=swap');
+
+@source '../../vendor/laravel/framework/src/Illuminate/Pagination/resources/views/*.blade.php';
+@source '../../storage/framework/views/*.php';
+
+@custom-variant dark (&:is(.dark *));
+
+@theme inline {
+    --font-sans: 'DM Sans', ui-sans-serif, system-ui, sans-serif;
+    --font-display: 'Barlow Condensed', sans-serif;
+
+    --radius-lg: var(--radius);
+    --radius-md: calc(var(--radius) - 2px);
+    --radius-sm: calc(var(--radius) - 4px);
+
+    --color-background: var(--background);
+    --color-foreground: var(--foreground);
+    --color-card: var(--card);
+    --color-card-foreground: var(--card-foreground);
+    --color-popover: var(--popover);
+    --color-popover-foreground: var(--popover-foreground);
+    --color-primary: var(--primary);
+    --color-primary-foreground: var(--primary-foreground);
+    --color-secondary: var(--secondary);
+    --color-secondary-foreground: var(--secondary-foreground);
+    --color-muted: var(--muted);
+    --color-muted-foreground: var(--muted-foreground);
+    --color-accent: var(--accent);
+    --color-accent-foreground: var(--accent-foreground);
+    --color-destructive: var(--destructive);
+    --color-destructive-foreground: var(--destructive-foreground);
+    --color-border: var(--border);
+    --color-input: var(--input);
+    --color-ring: var(--ring);
+    --color-chart-1: var(--chart-1);
+    --color-chart-2: var(--chart-2);
+    --color-chart-3: var(--chart-3);
+    --color-chart-4: var(--chart-4);
+    --color-chart-5: var(--chart-5);
+    --color-sidebar: var(--sidebar-background);
+    --color-sidebar-foreground: var(--sidebar-foreground);
+    --color-sidebar-primary: var(--sidebar-primary);
+    --color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
+    --color-sidebar-accent: var(--sidebar-accent);
+    --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
+    --color-sidebar-border: var(--sidebar-border);
+    --color-sidebar-ring: var(--sidebar-ring);
+
+    /* World Cup brand colors */
+    --color-pitch: var(--pitch);
+    --color-pitch-foreground: var(--pitch-foreground);
+    --color-gold: var(--gold);
+}
+
+@layer base {
+    *,
+    ::after,
+    ::before,
+    ::backdrop,
+    ::file-selector-button {
+        border-color: var(--color-gray-200, currentColor);
+    }
+}
+
+:root {
+    --background: hsl(0 0% 100%);
+    --foreground: hsl(0 0% 9%);
+    --card: hsl(0 0% 100%);
+    --card-foreground: hsl(0 0% 9%);
+    --popover: hsl(0 0% 100%);
+    --popover-foreground: hsl(0 0% 9%);
+    --primary: hsl(150 72% 36%);
+    --primary-foreground: hsl(0 0% 100%);
+    --secondary: hsl(0 0% 96%);
+    --secondary-foreground: hsl(0 0% 9%);
+    --muted: hsl(0 0% 96%);
+    --muted-foreground: hsl(0 0% 40%);
+    --accent: hsl(150 72% 36%);
+    --accent-foreground: hsl(0 0% 100%);
+    --destructive: hsl(0 84% 55%);
+    --destructive-foreground: hsl(0 0% 98%);
+    --border: hsl(0 0% 90%);
+    --input: hsl(0 0% 90%);
+    --ring: hsl(150 72% 36%);
+    --chart-1: hsl(150 72% 36%);
+    --chart-2: hsl(150 60% 55%);
+    --chart-3: hsl(0 0% 20%);
+    --chart-4: hsl(150 40% 70%);
+    --chart-5: hsl(0 0% 55%);
+    --radius: 0.625rem;
+    --sidebar-background: hsl(0 0% 7%);
+    --sidebar-foreground: hsl(0 0% 95%);
+    --sidebar-primary: hsl(150 72% 48%);
+    --sidebar-primary-foreground: hsl(0 0% 100%);
+    --sidebar-accent: hsl(0 0% 14%);
+    --sidebar-accent-foreground: hsl(0 0% 90%);
+    --sidebar-border: hsl(0 0% 16%);
+    --sidebar-ring: hsl(150 72% 48%);
+    --sidebar: hsl(0 0% 7%);
+    --pitch: hsl(150 72% 36%);
+    --pitch-foreground: hsl(0 0% 100%);
+    --gold: hsl(43 89% 45%);
+}
+
+.dark {
+    --background: hsl(0 0% 7%);
+    --foreground: hsl(0 0% 97%);
+    --card: hsl(0 0% 10%);
+    --card-foreground: hsl(0 0% 97%);
+    --popover: hsl(0 0% 10%);
+    --popover-foreground: hsl(0 0% 97%);
+    --primary: hsl(150 72% 52%);
+    --primary-foreground: hsl(0 0% 100%);
+    --secondary: hsl(0 0% 15%);
+    --secondary-foreground: hsl(0 0% 97%);
+    --muted: hsl(0 0% 14%);
+    --muted-foreground: hsl(0 0% 60%);
+    --accent: hsl(150 72% 52%);
+    --accent-foreground: hsl(0 0% 100%);
+    --destructive: hsl(0 84% 60%);
+    --destructive-foreground: hsl(0 0% 98%);
+    --border: hsl(0 0% 16%);
+    --input: hsl(0 0% 16%);
+    --ring: hsl(150 72% 52%);
+    --chart-1: hsl(150 72% 52%);
+    --chart-2: hsl(150 60% 65%);
+    --chart-3: hsl(0 0% 80%);
+    --chart-4: hsl(150 40% 70%);
+    --chart-5: hsl(0 0% 55%);
+    --sidebar-background: hsl(0 0% 5%);
+    --sidebar-foreground: hsl(0 0% 95%);
+    --sidebar-primary: hsl(150 72% 52%);
+    --sidebar-primary-foreground: hsl(0 0% 100%);
+    --sidebar-accent: hsl(0 0% 13%);
+    --sidebar-accent-foreground: hsl(0 0% 90%);
+    --sidebar-border: hsl(0 0% 14%);
+    --sidebar-ring: hsl(150 72% 52%);
+    --sidebar: hsl(0 0% 5%);
+    --pitch: hsl(150 72% 52%);
+    --pitch-foreground: hsl(0 0% 100%);
+    --gold: hsl(43 89% 52%);
+}
+
+@layer base {
+    * {
+        @apply border-border outline-ring/50;
+    }
+    body {
+        @apply bg-background text-foreground;
+        font-family: var(--font-sans);
+    }
+}
+
+@layer utilities {
+    .font-display {
+        font-family: var(--font-display);
+    }
+    .text-pitch {
+        color: var(--pitch);
+    }
+    .text-gold {
+        color: var(--gold);
+    }
+    .bg-pitch {
+        background-color: var(--pitch);
+    }
+    .bg-gold {
+        background-color: var(--gold);
+    }
+    .border-pitch {
+        border-color: var(--pitch);
+    }
+}
+
+/* Live pulse animation */
+@keyframes live-pulse {
+    0%, 100% { opacity: 1; transform: scale(1); }
+    50% { opacity: 0.5; transform: scale(1.2); }
+}
+
+.live-dot {
+    animation: live-pulse 1.4s ease-in-out infinite;
+}
+
+/* Score change flash */
+@keyframes score-flash {
+    0% { background-color: hsl(150 72% 36% / 0.3); }
+    100% { background-color: transparent; }
+}
+
+.score-flash {
+    animation: score-flash 0.8s ease-out;
+}
+
+/* Gradient mesh background */
+.mesh-bg {
+    background:
+        radial-gradient(ellipse at 20% 50%, hsl(150 72% 36% / 0.10) 0%, transparent 50%),
+        radial-gradient(ellipse at 80% 20%, hsl(150 72% 50% / 0.06) 0%, transparent 40%),
+        radial-gradient(ellipse at 50% 100%, hsl(0 0% 0% / 0.06) 0%, transparent 60%);
+}

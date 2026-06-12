@@ -1,0 +1,194 @@
+{
+  "MEX": {
+    "name": "Mexico",
+    "flag_url": "https://flagcdn.com/w320/mx.png"
+  },
+  "RSA": {
+    "name": "South Africa",
+    "flag_url": "https://flagcdn.com/w320/za.png"
+  },
+  "KOR": {
+    "name": "South Korea",
+    "flag_url": "https://flagcdn.com/w320/kr.png"
+  },
+  "CZE": {
+    "name": "Czechia",
+    "flag_url": "https://flagcdn.com/w320/cz.png"
+  },
+  "CAN": {
+    "name": "Canada",
+    "flag_url": "https://flagcdn.com/w320/ca.png"
+  },
+  "BIH": {
+    "name": "Bosnia and Herzegovina",
+    "flag_url": "https://flagcdn.com/w320/ba.png"
+  },
+  "QAT": {
+    "name": "Qatar",
+    "flag_url": "https://flagcdn.com/w320/qa.png"
+  },
+  "SUI": {
+    "name": "Switzerland",
+    "flag_url": "https://flagcdn.com/w320/ch.png"
+  },
+  "BRA": {
+    "name": "Brazil",
+    "flag_url": "https://flagcdn.com/w320/br.png"
+  },
+  "MAR": {
+    "name": "Morocco",
+    "flag_url": "https://flagcdn.com/w320/ma.png"
+  },
+  "HAI": {
+    "name": "Haiti",
+    "flag_url": "https://flagcdn.com/w320/ht.png"
+  },
+  "SCO": {
+    "name": "Scotland",
+    "flag_url": "https://flagcdn.com/w320/gb-sct.png"
+  },
+  "USA": {
+    "name": "United States",
+    "flag_url": "https://flagcdn.com/w320/us.png"
+  },
+  "PAR": {
+    "name": "Paraguay",
+    "flag_url": "https://flagcdn.com/w320/py.png"
+  },
+  "AUS": {
+    "name": "Australia",
+    "flag_url": "https://flagcdn.com/w320/au.png"
+  },
+  "TUR": {
+    "name": "Türkiye",
+    "flag_url": "https://flagcdn.com/w320/tr.png"
+  },
+  "GER": {
+    "name": "Germany",
+    "flag_url": "https://flagcdn.com/w320/de.png"
+  },
+  "CUW": {
+    "name": "Curaçao",
+    "flag_url": "https://flagcdn.com/w320/cw.png"
+  },
+  "CIV": {
+    "name": "Ivory Coast",
+    "flag_url": "https://flagcdn.com/w320/ci.png"
+  },
+  "ECU": {
+    "name": "Ecuador",
+    "flag_url": "https://flagcdn.com/w320/ec.png"
+  },
+  "NED": {
+    "name": "Netherlands",
+    "flag_url": "https://flagcdn.com/w320/nl.png"
+  },
+  "JPN": {
+    "name": "Japan",
+    "flag_url": "https://flagcdn.com/w320/jp.png"
+  },
+  "SWE": {
+    "name": "Sweden",
+    "flag_url": "https://flagcdn.com/w320/se.png"
+  },
+  "TUN": {
+    "name": "Tunisia",
+    "flag_url": "https://flagcdn.com/w320/tn.png"
+  },
+  "BEL": {
+    "name": "Belgium",
+    "flag_url": "https://flagcdn.com/w320/be.png"
+  },
+  "EGY": {
+    "name": "Egypt",
+    "flag_url": "https://flagcdn.com/w320/eg.png"
+  },
+  "IRN": {
+    "name": "Iran",
+    "flag_url": "https://flagcdn.com/w320/ir.png"
+  },
+  "NZL": {
+    "name": "New Zealand",
+    "flag_url": "https://flagcdn.com/w320/nz.png"
+  },
+  "ESP": {
+    "name": "Spain",
+    "flag_url": "https://flagcdn.com/w320/es.png"
+  },
+  "CPV": {
+    "name": "Cape Verde",
+    "flag_url": "https://flagcdn.com/w320/cv.png"
+  },
+  "KSA": {
+    "name": "Saudi Arabia",
+    "flag_url": "https://flagcdn.com/w320/sa.png"
+  },
+  "URU": {
+    "name": "Uruguay",
+    "flag_url": "https://flagcdn.com/w320/uy.png"
+  },
+  "FRA": {
+    "name": "France",
+    "flag_url": "https://flagcdn.com/w320/fr.png"
+  },
+  "SEN": {
+    "name": "Senegal",
+    "flag_url": "https://flagcdn.com/w320/sn.png"
+  },
+  "IRQ": {
+    "name": "Iraq",
+    "flag_url": "https://flagcdn.com/w320/iq.png"
+  },
+  "NOR": {
+    "name": "Norway",
+    "flag_url": "https://flagcdn.com/w320/no.png"
+  },
+  "ARG": {
+    "name": "Argentina",
+    "flag_url": "https://flagcdn.com/w320/ar.png"
+  },
+  "ALG": {
+    "name": "Algeria",
+    "flag_url": "https://flagcdn.com/w320/dz.png"
+  },
+  "AUT": {
+    "name": "Austria",
+    "flag_url": "https://flagcdn.com/w320/at.png"
+  },
+  "JOR": {
+    "name": "Jordan",
+    "flag_url": "https://flagcdn.com/w320/jo.png"
+  },
+  "POR": {
+    "name": "Portugal",
+    "flag_url": "https://flagcdn.com/w320/pt.png"
+  },
+  "COD": {
+    "name": "DR Congo",
+    "flag_url": "https://flagcdn.com/w320/cd.png"
+  },
+  "UZB": {
+    "name": "Uzbekistan",
+    "flag_url": "https://flagcdn.com/w320/uz.png"
+  },
+  "COL": {
+    "name": "Colombia",
+    "flag_url": "https://flagcdn.com/w320/co.png"
+  },
+  "ENG": {
+    "name": "England",
+    "flag_url": "https://flagcdn.com/w320/gb-eng.png"
+  },
+  "CRO": {
+    "name": "Croatia",
+    "flag_url": "https://flagcdn.com/w320/hr.png"
+  },
+  "GHA": {
+    "name": "Ghana",
+    "flag_url": "https://flagcdn.com/w320/gh.png"
+  },
+  "PAN": {
+    "name": "Panama",
+    "flag_url": "https://flagcdn.com/w320/pa.png"
+  }
+}
