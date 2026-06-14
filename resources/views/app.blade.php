@@ -30,8 +30,8 @@
             }
         </style>
 
-        <link rel="icon" href="/images/muslim-league-flag.png" type="image/png">
-        <link rel="apple-touch-icon" href="/images/muslim-league-flag.png">
+        <link rel="icon" href="/images/2026_FIFA_World_Cup_emblem.svg.webp" type="image/png">
+        <link rel="apple-touch-icon" href="/images/2026_FIFA_World_Cup_emblem.svg.webp">
 
         @fonts
 

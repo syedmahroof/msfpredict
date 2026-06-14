@@ -14,7 +14,7 @@ class AdvertisementSeeder extends Seeder
     public function run(): void
     {
         $imagePath = 'ads/sample-banner.png';
-        $source = public_path('images/muslim-league-flag.png');
+        $source = public_path('images/2026_FIFA_World_Cup_emblem.svg.webp');
 
         // Copy the Muslim League flag onto the public disk so the uploaded-image
         // workflow has a real file to serve (no external URL needed).

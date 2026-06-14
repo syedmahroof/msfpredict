@@ -19,7 +19,7 @@ class DatabaseSeeder extends Seeder
         // The admin account is the only seeded user — real employees register
         // themselves and make their own predictions.
         User::create([
-            'name' => 'Muslim Youth League Admin',
+            'name' => 'Muslim Youth Leage Naduvannur Committee Admin',
             'email' => 'admin@iocod.com',
             'is_admin' => true,
             'referral_code' => 'ADMIN001',

@@ -34,6 +34,7 @@ class UserFactory extends Factory
             'two_factor_recovery_codes' => null,
             'two_factor_confirmed_at' => null,
             'country_code' => strtoupper(fake()->countryCode()),
+            'phone' => fake()->numerify('##########'),
             'referral_code' => strtoupper(Str::random(8)),
         ];
     }

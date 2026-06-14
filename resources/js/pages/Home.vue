@@ -83,7 +83,7 @@ const countdownTarget = computed(() => {
 
             <div class="relative mx-auto max-w-7xl px-4 py-16 sm:px-6 sm:py-24">
                 <div class="mx-auto max-w-3xl text-center">
-                    <img src="/images/muslim-league-flag.png" alt="Muslim Youth League" class="mx-auto mb-6 h-24 w-auto rounded-xl shadow-lg ring-1 ring-border sm:h-28" />
+                    <img src="/images/2026_FIFA_World_Cup_emblem.svg.webp" alt="Muslim Youth League Naduvannur Committee" class="mx-auto mb-6 h-24 w-auto rounded-xl shadow-lg ring-1 ring-border sm:h-28" />
                     <div class="mb-4 inline-flex items-center gap-2 rounded-full border border-pitch/30 bg-pitch/10 px-4 py-1.5 text-xs font-bold uppercase tracking-widest text-pitch">
                         <span class="live-dot h-2 w-2 rounded-full bg-pitch" />
                         FIFA World Cup 2026
@@ -94,7 +94,7 @@ const countdownTarget = computed(() => {
                         WIN.
                     </h1>
                     <p class="mt-6 text-base text-muted-foreground sm:text-lg max-w-xl mx-auto leading-relaxed">
-                        Score predict every World Cup 2026 match and climb the Muslim Youth League leaderboard.
+                        Score predict every World Cup 2026 match and climb the Muslim Youth Leage Naduvannur Committee leaderboard.
                     </p>
                     <div class="mt-8 flex flex-col sm:flex-row items-center justify-center gap-3">
                         <Link v-if="isAuthenticated" href="/predict" class="flex h-12 w-full sm:w-auto items-center justify-center rounded-xl bg-pitch px-8 text-base font-bold text-pitch-foreground hover:bg-pitch/90 transition-all hover:scale-[1.02] active:scale-[0.98]">

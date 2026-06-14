@@ -216,9 +216,9 @@ const navLinks = [
                 <div class="flex flex-col items-center gap-4 sm:flex-row sm:justify-between">
                     <div class="flex items-center gap-2 order-1">
                         <AppLogoIcon class="h-7 w-auto shrink-0 rounded ring-1 ring-border" />
-                        <span class="font-display text-sm font-black uppercase tracking-tight text-foreground">Muslim Youth League</span>
+                        <span class="font-display text-sm font-black uppercase tracking-tight text-foreground">Muslim Youth Leage Naduvannur Committee</span>
                     </div>
-                    <p class="order-3 text-center text-xs text-muted-foreground sm:order-2">© 2026 Muslim Youth League · World Cup predictions </p>
+                    <p class="order-3 text-center text-xs text-muted-foreground sm:order-2">© 2026 Muslim Youth Leage Naduvannur Committee · World Cup predictions </p>
                     <div class="order-2 flex gap-4 text-xs text-muted-foreground sm:order-3">
                         <Link href="/faq" class="hover:text-foreground transition-colors">FAQ</Link>
                         <a href="#" class="hover:text-foreground transition-colors">Privacy</a>
