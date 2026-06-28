@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { countryFlag as flagEmoji } from '@/lib/flag'
 import { Link, useForm } from '@inertiajs/vue3'
-import { computed, onMounted, onUnmounted, ref } from 'vue'
+import { computed, onMounted, onUnmounted, ref, watch } from 'vue'
 import flagsData from '@/data/flags.json'
 
 interface Team {
@@ -14,6 +14,7 @@ interface Team {
 interface Prediction {
     predicted_home_score: number | null
     predicted_away_score: number | null
+    predicted_winner?: string | null
 }
 
 interface Fixture {
@@ -39,6 +40,16 @@ const existingPrediction = computed(() => props.fixture.predictions?.[0] ?? null
 const form = useForm({
     predicted_home_score: existingPrediction.value?.predicted_home_score ?? 0,
     predicted_away_score: existingPrediction.value?.predicted_away_score ?? 0,
+    predicted_winner: existingPrediction.value?.predicted_winner ?? null,
+})
+
+const isKnockoutFixture = computed(() => props.fixture.round !== 'group_stage')
+const isDrawPredicted = computed(() => form.predicted_home_score === form.predicted_away_score)
+
+watch([() => form.predicted_home_score, () => form.predicted_away_score], () => {
+    if (!isDrawPredicted.value) {
+        form.predicted_winner = null
+    }
 })
 
 // Predictions open 24 hours before kick-off and close at kick-off.
@@ -258,48 +269,85 @@ const predictionsOpenLabel = computed(() => {
                     >
                         Predictions close in {{ remainingLabel }}
                     </p>
-                    <form @submit.prevent="submitPrediction" class="flex items-center justify-center gap-3">
-                        <div class="flex items-center gap-2">
-                            <!-- Home score stepper -->
-                            <div class="flex items-center gap-1">
-                                <button
-                                    type="button"
-                                    class="flex h-8 w-8 items-center justify-center rounded-lg bg-muted text-foreground hover:bg-muted/80 font-bold text-sm transition-colors"
-                                    @click="form.predicted_home_score = Math.max(0, form.predicted_home_score - 1)"
-                                >−</button>
-                                <span class="w-8 text-center font-display font-black text-xl tabular-nums text-foreground">{{ form.predicted_home_score }}</span>
-                                <button
-                                    type="button"
-                                    class="flex h-8 w-8 items-center justify-center rounded-lg bg-muted text-foreground hover:bg-muted/80 font-bold text-sm transition-colors"
-                                    @click="form.predicted_home_score++"
-                                >+</button>
+                    <form @submit.prevent="submitPrediction" class="flex flex-col items-center gap-3">
+                        <div class="flex items-center justify-center gap-3">
+                            <div class="flex items-center gap-2">
+                                <!-- Home score stepper -->
+                                <div class="flex items-center gap-1">
+                                    <button
+                                        type="button"
+                                        class="flex h-8 w-8 items-center justify-center rounded-lg bg-muted text-foreground hover:bg-muted/80 font-bold text-sm transition-colors"
+                                        @click="form.predicted_home_score = Math.max(0, form.predicted_home_score - 1)"
+                                    >−</button>
+                                    <span class="w-8 text-center font-display font-black text-xl tabular-nums text-foreground">{{ form.predicted_home_score }}</span>
+                                    <button
+                                        type="button"
+                                        class="flex h-8 w-8 items-center justify-center rounded-lg bg-muted text-foreground hover:bg-muted/80 font-bold text-sm transition-colors"
+                                        @click="form.predicted_home_score++"
+                                    >+</button>
+                                </div>
+
+                                <span class="font-display font-black text-lg text-muted-foreground/40">–</span>
+
+                                <!-- Away score stepper -->
+                                <div class="flex items-center gap-1">
+                                    <button
+                                        type="button"
+                                        class="flex h-8 w-8 items-center justify-center rounded-lg bg-muted text-foreground hover:bg-muted/80 font-bold text-sm transition-colors"
+                                        @click="form.predicted_away_score = Math.max(0, form.predicted_away_score - 1)"
+                                    >−</button>
+                                    <span class="w-8 text-center font-display font-black text-xl tabular-nums text-foreground">{{ form.predicted_away_score }}</span>
+                                    <button
+                                        type="button"
+                                        class="flex h-8 w-8 items-center justify-center rounded-lg bg-muted text-foreground hover:bg-muted/80 font-bold text-sm transition-colors"
+                                        @click="form.predicted_away_score++"
+                                    >+</button>
+                                </div>
                             </div>
 
-                            <span class="font-display font-black text-lg text-muted-foreground/40">–</span>
-
-                            <!-- Away score stepper -->
-                            <div class="flex items-center gap-1">
-                                <button
-                                    type="button"
-                                    class="flex h-8 w-8 items-center justify-center rounded-lg bg-muted text-foreground hover:bg-muted/80 font-bold text-sm transition-colors"
-                                    @click="form.predicted_away_score = Math.max(0, form.predicted_away_score - 1)"
-                                >−</button>
-                                <span class="w-8 text-center font-display font-black text-xl tabular-nums text-foreground">{{ form.predicted_away_score }}</span>
-                                <button
-                                    type="button"
-                                    class="flex h-8 w-8 items-center justify-center rounded-lg bg-muted text-foreground hover:bg-muted/80 font-bold text-sm transition-colors"
-                                    @click="form.predicted_away_score++"
-                                >+</button>
-                            </div>
+                            <button
+                                type="submit"
+                                :disabled="form.processing || (isKnockoutFixture && isDrawPredicted && !form.predicted_winner)"
+                                class="flex h-9 items-center rounded-lg bg-pitch px-4 text-sm font-bold text-pitch-foreground hover:bg-pitch/90 disabled:opacity-50 transition-colors"
+                            >
+                                {{ existingPrediction ? 'Update' : 'Predict' }}
+                            </button>
                         </div>
 
-                        <button
-                            type="submit"
-                            :disabled="form.processing"
-                            class="flex h-9 items-center rounded-lg bg-pitch px-4 text-sm font-bold text-pitch-foreground hover:bg-pitch/90 disabled:opacity-50 transition-colors"
-                        >
-                            {{ existingPrediction ? 'Update' : 'Predict' }}
-                        </button>
+                        <!-- Winner selection for knockout draw -->
+                        <div v-if="isKnockoutFixture && isDrawPredicted" class="w-full max-w-[280px] rounded-lg bg-muted/40 p-2.5 border border-border/50 text-center">
+                            <p class="text-[10px] font-bold uppercase tracking-wider text-muted-foreground mb-2">
+                                Choose Team to Advance
+                            </p>
+                            <div class="grid grid-cols-2 gap-2">
+                                <button
+                                    type="button"
+                                    class="flex items-center justify-center rounded-lg border px-3 py-1.5 text-xs font-semibold transition-all"
+                                    :class="form.predicted_winner === 'home'
+                                        ? 'border-pitch bg-pitch/10 text-pitch font-bold shadow-xs'
+                                        : 'border-border bg-card text-foreground hover:bg-muted'"
+                                    @click="form.predicted_winner = 'home'"
+                                >
+                                    <svg v-if="form.predicted_winner === 'home'" class="h-3 w-3 mr-1 shrink-0 text-pitch" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+                                    </svg>
+                                    {{ fixture.home_team.name }}
+                                </button>
+                                <button
+                                    type="button"
+                                    class="flex items-center justify-center rounded-lg border px-3 py-1.5 text-xs font-semibold transition-all"
+                                    :class="form.predicted_winner === 'away'
+                                        ? 'border-pitch bg-pitch/10 text-pitch font-bold shadow-xs'
+                                        : 'border-border bg-card text-foreground hover:bg-muted'"
+                                    @click="form.predicted_winner = 'away'"
+                                >
+                                    <svg v-if="form.predicted_winner === 'away'" class="h-3 w-3 mr-1 shrink-0 text-pitch" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+                                    </svg>
+                                    {{ fixture.away_team.name }}
+                                </button>
+                            </div>
+                        </div>
                     </form>
 
                     <!-- Existing prediction badge -->
@@ -308,19 +356,31 @@ const predictionsOpenLabel = computed(() => {
                         <span class="font-semibold text-pitch">
                             {{ existingPrediction.predicted_home_score }} – {{ existingPrediction.predicted_away_score }}
                         </span>
+                        <template v-if="isKnockoutFixture && existingPrediction.predicted_home_score === existingPrediction.predicted_away_score && existingPrediction.predicted_winner">
+                            <span class="text-[10px] text-muted-foreground block mt-0.5">
+                                ({{ existingPrediction.predicted_winner === 'home' ? fixture.home_team.name : fixture.away_team.name }} on penalties)
+                            </span>
+                        </template>
                     </p>
                 </div>
             </template>
 
             <!-- Locked state with existing prediction -->
             <template v-else-if="showPredictForm && isLocked && existingPrediction">
-                <div class="mt-4 flex items-center justify-center gap-2 rounded-lg bg-muted/50 py-2.5">
-                    <svg class="h-3.5 w-3.5 text-pitch" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
-                    </svg>
-                    <span class="text-xs font-semibold text-muted-foreground">
-                        Your pick: <span class="text-pitch">{{ existingPrediction.predicted_home_score }} – {{ existingPrediction.predicted_away_score }}</span>
-                    </span>
+                <div class="mt-4 flex flex-col items-center justify-center gap-1 rounded-lg bg-muted/50 py-2.5">
+                    <div class="flex items-center gap-2">
+                        <svg class="h-3.5 w-3.5 text-pitch" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+                        </svg>
+                        <span class="text-xs font-semibold text-muted-foreground">
+                            Your pick: <span class="text-pitch">{{ existingPrediction.predicted_home_score }} – {{ existingPrediction.predicted_away_score }}</span>
+                        </span>
+                    </div>
+                    <template v-if="isKnockoutFixture && existingPrediction.predicted_home_score === existingPrediction.predicted_away_score && existingPrediction.predicted_winner">
+                        <span class="text-[10px] text-muted-foreground">
+                            ({{ existingPrediction.predicted_winner === 'home' ? fixture.home_team.name : fixture.away_team.name }} on penalties)
+                        </span>
+                    </template>
                 </div>
             </template>
 

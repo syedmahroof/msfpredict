@@ -20,6 +20,7 @@ interface Prediction {
     is_calculated: boolean
     fixture: {
         id: number
+        round: string
         scheduled_at: string
         status: string
         home_score: number | null
@@ -121,6 +122,11 @@ function matchDate(date: string): string {
                             </div>
                             <div class="mt-0.5 text-[11px] text-muted-foreground">
                                 Pick <span class="font-semibold text-foreground tabular-nums">{{ prediction.predicted_home_score }}–{{ prediction.predicted_away_score }}</span>
+                                <template v-if="prediction.fixture.round !== 'group_stage' && prediction.predicted_home_score === prediction.predicted_away_score && prediction.predicted_winner">
+                                    <span class="text-[10px] font-normal text-muted-foreground ml-1">
+                                        ({{ prediction.predicted_winner === 'home' ? prediction.fixture.home_team.name : prediction.fixture.away_team.name }} on penalties)
+                                    </span>
+                                </template>
                                 <template v-if="prediction.fixture.home_score !== null">
                                     · Result <span class="font-semibold text-foreground tabular-nums">{{ prediction.fixture.home_score }}–{{ prediction.fixture.away_score }}</span>
                                 </template>

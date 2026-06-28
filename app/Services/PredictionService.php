@@ -60,7 +60,7 @@ class PredictionService
             ]);
         }
 
-        $actualWinner = $this->determineWinner($fixture->home_score, $fixture->away_score);
+        $actualWinner = $fixture->winner ?: $this->determineWinner($fixture->home_score, $fixture->away_score);
         $isKnockout = FixtureRound::from($fixture->round)->isKnockout();
         $multiplier = $isKnockout ? $scoringRule->knockout_multiplier : 1;
 
@@ -99,43 +99,52 @@ class PredictionService
             return ['total' => 0, 'is_exact_score' => false, 'is_correct_winner' => false, 'is_correct_goal_difference' => false];
         }
 
+        $isKnockout = FixtureRound::from($fixture->round)->isKnockout();
+
+        // Determine Predicted Winner
         $predictedWinner = $this->determineWinner($prediction->predicted_home_score, $prediction->predicted_away_score);
+        if ($isKnockout && $predictedWinner === 'draw') {
+            $predictedWinner = $prediction->predicted_winner;
+        }
+
+        // Match Logic
+        $scoresMatchExactly = $prediction->predicted_home_score === $fixture->home_score
+            && $prediction->predicted_away_score === $fixture->away_score;
+        $winnerMatches = $predictedWinner === $actualWinner;
+
         $points = 0;
         $isExactScore = false;
         $isCorrectWinner = false;
         $isCorrectGoalDiff = false;
 
-        if ($prediction->predicted_home_score === $fixture->home_score && $prediction->predicted_away_score === $fixture->away_score) {
+        if ($scoresMatchExactly && $winnerMatches) {
+            // Exact Score (e.g. 10 pts * 2)
             $isExactScore = true;
             $isCorrectWinner = true;
             $points = $rule->exact_score_points * $multiplier;
-        } elseif ($predictedWinner === $actualWinner) {
+        } elseif ($winnerMatches) {
+            // Correct Winner (e.g. 5 pts * 2)
             $isCorrectWinner = true;
-
             if ($actualWinner === 'draw') {
-                // Every draw has a goal difference of zero, so the goal-difference
-                // bonus would always trivially apply. A correctly predicted draw
-                // simply scores the draw points.
                 $points = $rule->correct_draw_points * $multiplier;
             } else {
                 $points = $rule->correct_winner_points;
-
                 $actualDiff = abs($fixture->home_score - $fixture->away_score);
                 $predictedDiff = abs($prediction->predicted_home_score - $prediction->predicted_away_score);
-
-                // Getting the exact margin right adds the goal-difference bonus on
-                // top of the winner points.
                 if ($actualDiff === $predictedDiff) {
                     $isCorrectGoalDiff = true;
                     $points += $rule->correct_goal_difference_points;
                 }
-
                 $points *= $multiplier;
             }
+        } elseif ($prediction->predicted_home_score === $prediction->predicted_away_score && $fixture->home_score === $fixture->away_score) {
+            // Score matches but wrong team advanced: Award Correct Draw points (e.g. 3 pts * 2)
+            $points = $rule->correct_draw_points * $multiplier;
         } elseif (
             $prediction->predicted_home_score === $fixture->home_score ||
             $prediction->predicted_away_score === $fixture->away_score
         ) {
+            // One team score match (e.g. 1 pt * 2)
             $points = $rule->correct_one_team_score_points * $multiplier;
         }
 

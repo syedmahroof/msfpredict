@@ -12,6 +12,7 @@ interface Team {
 
 interface Fixture {
     id: number
+    round: string
     scheduled_at: string
     status: string
     home_score?: number | null
@@ -24,6 +25,7 @@ interface Prediction {
     id: number
     predicted_home_score: number | null
     predicted_away_score: number | null
+    predicted_winner?: string | null
     points_earned: number
     is_exact_score: boolean
     is_correct_winner: boolean
@@ -102,8 +104,13 @@ function pointsColor(pts: number): string {
 
                         <div class="text-center">
                             <!-- Your prediction -->
-                            <div class="font-display font-black text-xl tabular-nums text-foreground">
-                                {{ prediction.predicted_home_score }} – {{ prediction.predicted_away_score }}
+                            <div class="font-display font-black text-xl tabular-nums text-foreground flex flex-col items-center">
+                                <span>{{ prediction.predicted_home_score }} – {{ prediction.predicted_away_score }}</span>
+                                <template v-if="prediction.fixture.round !== 'group_stage' && prediction.predicted_home_score === prediction.predicted_away_score && prediction.predicted_winner">
+                                    <span class="text-[10px] font-normal text-muted-foreground mt-0.5">
+                                        ({{ prediction.predicted_winner === 'home' ? prediction.fixture.home_team.name : prediction.fixture.away_team.name }} on penalties)
+                                    </span>
+                                </template>
                             </div>
                             <!-- Actual score -->
                             <div v-if="prediction.is_calculated" class="text-xs text-muted-foreground">

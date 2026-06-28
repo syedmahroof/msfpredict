@@ -150,11 +150,18 @@ const kickoff = computed(() =>
                 <div v-if="!isLocked" class="p-10 text-center">
                     <div class="mb-3 text-4xl">🔒</div>
                     <p class="text-sm text-muted-foreground">Everyone's predictions are revealed after kick-off.</p>
-                    <div v-if="userPrediction" class="mt-4 inline-flex items-center gap-2 rounded-lg bg-muted/50 px-4 py-2 text-sm">
-                        <span class="text-muted-foreground">Your pick:</span>
-                        <span class="font-bold text-pitch tabular-nums">
-                            {{ userPrediction.predicted_home_score }} – {{ userPrediction.predicted_away_score }}
-                        </span>
+                    <div v-if="userPrediction" class="mt-4 flex flex-col items-center gap-1 rounded-lg bg-muted/50 px-4 py-2.5 text-sm">
+                        <div class="flex items-center gap-2">
+                            <span class="text-muted-foreground">Your pick:</span>
+                            <span class="font-bold text-pitch tabular-nums">
+                                {{ userPrediction.predicted_home_score }} – {{ userPrediction.predicted_away_score }}
+                            </span>
+                        </div>
+                        <template v-if="fixture.round !== 'group_stage' && userPrediction.predicted_home_score === userPrediction.predicted_away_score && userPrediction.predicted_winner">
+                            <span class="text-[10px] text-muted-foreground">
+                                ({{ userPrediction.predicted_winner === 'home' ? fixture.home_team.name : fixture.away_team.name }} on penalties)
+                            </span>
+                        </template>
                     </div>
                 </div>
 
@@ -186,9 +193,14 @@ const kickoff = computed(() =>
                                     </div>
                                 </td>
                                 <td class="px-6 py-3 text-center">
-                                    <span class="font-display font-black tabular-nums text-foreground">
-                                        {{ prediction.predicted_home_score }} – {{ prediction.predicted_away_score }}
-                                    </span>
+                                    <div class="font-display font-black tabular-nums text-foreground flex flex-col items-center justify-center">
+                                        <span>{{ prediction.predicted_home_score }} – {{ prediction.predicted_away_score }}</span>
+                                        <template v-if="fixture.round !== 'group_stage' && prediction.predicted_home_score === prediction.predicted_away_score && prediction.predicted_winner">
+                                            <span class="text-[10px] font-normal text-muted-foreground mt-0.5">
+                                                ({{ prediction.predicted_winner === 'home' ? fixture.home_team.name : fixture.away_team.name }} on penalties)
+                                            </span>
+                                        </template>
+                                    </div>
                                     <span v-if="prediction.is_exact_score" class="ml-1 rounded bg-pitch/15 px-1.5 py-0.5 text-[9px] font-bold uppercase text-pitch">Exact</span>
                                     <span v-else-if="prediction.is_correct_winner" class="ml-1 rounded bg-muted px-1.5 py-0.5 text-[9px] font-bold uppercase text-muted-foreground">Winner</span>
                                 </td>

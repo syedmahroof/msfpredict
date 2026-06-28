@@ -69,8 +69,16 @@ const countdownTarget = computed(() => {
     return null
 })
 
-
-</script>
+const activeScoringRule = computed(() => {
+    return props.scoringRule || {
+        exact_score_points: 10,
+        correct_winner_points: 3,
+        correct_draw_points: 5,
+        correct_goal_difference_points: 5,
+        correct_one_team_score_points: 2,
+        knockout_multiplier: 1,
+    }
+})</script>
 
 <template>
     <WorldCupLayout>
@@ -193,8 +201,8 @@ const countdownTarget = computed(() => {
         </section>
 
         <!-- How points work -->
-        <section v-if="scoringRule" class="mx-auto max-w-7xl px-4 pb-8 sm:px-6">
-            <ScoringRules :scoring-rule="scoringRule" />
+        <section class="mx-auto max-w-7xl px-4 pb-8 sm:px-6">
+            <ScoringRules :scoring-rule="activeScoringRule" />
         </section>
 
         <!-- How it works -->
@@ -212,7 +220,20 @@ const countdownTarget = computed(() => {
                     <div class="rounded-xl border border-border bg-card p-6 text-center">
                         <div class="mb-4 text-4xl">🏆</div>
                         <h3 class="mb-2 font-display font-bold text-lg uppercase tracking-wide text-foreground">2. Earn Points</h3>
-                        <p class="text-sm text-muted-foreground leading-relaxed"><span class="font-semibold text-pitch">10pts</span> exact score, <span class="font-semibold text-foreground">5pts</span> correct winner, <span class="font-semibold text-foreground">3pts</span> draw, <span class="font-semibold text-foreground">+2</span> exact margin, <span class="font-semibold text-foreground">1pt</span> one team’s score. Knockouts ×2.</p>
+                        <div class="space-y-2">
+                            <p class="text-sm text-muted-foreground leading-relaxed">
+                                <span class="font-semibold text-pitch">{{ activeScoringRule.exact_score_points }}pts</span> exact score,
+                                <span class="font-semibold text-foreground">{{ activeScoringRule.correct_winner_points }}pts</span> correct winner,
+                                <span class="font-semibold text-foreground">{{ activeScoringRule.correct_draw_points }}pts</span> draw,
+                                <span class="font-semibold text-foreground">+{{ activeScoringRule.correct_goal_difference_points }}</span> exact margin,
+                                <span class="font-semibold text-foreground">{{ activeScoringRule.correct_one_team_score_points }}pt</span> one team’s score.
+                                Knockouts ×{{ activeScoringRule.knockout_multiplier }}.
+                            </p>
+                            <p class="text-[11px] text-muted-foreground/80 leading-relaxed border-t border-border/50 pt-2 text-left">
+                                <span class="font-bold text-pitch uppercase tracking-wider text-[9px] mr-1 block sm:inline">Knockout Draws:</span>
+                                To earn exact score points (20 pts), both the score and the selected advancing team must match. Score matches but wrong team advances: 6 pts. Score mismatches but correct team advances: 14 pts.
+                            </p>
+                        </div>
                     </div>
                     <div class="rounded-xl border border-border bg-card p-6 text-center">
                         <div class="mb-4 text-4xl">🌍</div>

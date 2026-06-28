@@ -94,7 +94,14 @@ function kickoff(date: string): string {
                                     </Link>
                                 </td>
                                 <td class="px-5 py-3 text-center">
-                                    <span class="font-display font-black tabular-nums text-foreground">{{ prediction.predicted_home_score }}–{{ prediction.predicted_away_score }}</span>
+                                    <div class="font-display font-black tabular-nums text-foreground flex flex-col items-center justify-center">
+                                        <span>{{ prediction.predicted_home_score }}–{{ prediction.predicted_away_score }}</span>
+                                        <template v-if="fixture.round !== 'group_stage' && prediction.predicted_home_score === prediction.predicted_away_score && prediction.predicted_winner">
+                                            <span class="text-[10px] font-normal text-muted-foreground mt-0.5">
+                                                ({{ prediction.predicted_winner === 'home' ? fixture.home_team.name : fixture.away_team.name }} on penalties)
+                                            </span>
+                                        </template>
+                                    </div>
                                     <span v-if="prediction.is_exact_score" class="ml-1 rounded bg-pitch/15 px-1.5 py-0.5 text-[9px] font-bold uppercase text-pitch">Exact</span>
                                     <span v-else-if="prediction.is_correct_winner" class="ml-1 rounded bg-muted px-1.5 py-0.5 text-[9px] font-bold uppercase text-muted-foreground">Winner</span>
                                 </td>

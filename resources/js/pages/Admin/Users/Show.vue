@@ -13,12 +13,14 @@ interface Prediction {
     id: number
     predicted_home_score: number | null
     predicted_away_score: number | null
+    predicted_winner?: string | null
     points_earned: number
     is_exact_score: boolean
     is_correct_winner: boolean
     is_calculated: boolean
     fixture: {
         id: number
+        round: string
         scheduled_at: string
         status: string
         home_score: number | null
@@ -144,7 +146,16 @@ function updatePassword() {
                                     </Link>
                                 </td>
                                 <td class="px-5 py-3 text-muted-foreground hidden sm:table-cell text-xs">{{ dateLabel(prediction.fixture.scheduled_at) }}</td>
-                                <td class="px-5 py-3 text-center font-display font-black tabular-nums text-foreground">{{ prediction.predicted_home_score }}–{{ prediction.predicted_away_score }}</td>
+                                <td class="px-5 py-3 text-center">
+                                    <div class="font-display font-black tabular-nums text-foreground flex flex-col items-center justify-center">
+                                        <span>{{ prediction.predicted_home_score }}–{{ prediction.predicted_away_score }}</span>
+                                        <template v-if="prediction.fixture.round !== 'group_stage' && prediction.predicted_home_score === prediction.predicted_away_score && prediction.predicted_winner">
+                                            <span class="text-[10px] font-normal text-muted-foreground mt-0.5">
+                                                ({{ prediction.predicted_winner === 'home' ? prediction.fixture.home_team.name : prediction.fixture.away_team.name }} on penalties)
+                                            </span>
+                                        </template>
+                                    </div>
+                                </td>
                                 <td class="px-5 py-3 text-center tabular-nums">
                                     <span v-if="prediction.fixture.home_score !== null" class="font-semibold text-foreground">{{ prediction.fixture.home_score }}–{{ prediction.fixture.away_score }}</span>
                                     <span v-else class="text-xs text-muted-foreground">—</span>

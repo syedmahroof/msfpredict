@@ -50,6 +50,12 @@ const scoringRows = computed(() => {
                 </div>
             </div>
         </div>
-        <p class="mt-3 text-[11px] text-muted-foreground">Points are awarded once a match kicks off and the final result is confirmed. Knockout matches are worth double.</p>
+        <div class="mt-4 border-t border-border/50 pt-3 text-[11px] text-muted-foreground leading-relaxed space-y-1.5">
+            <p>Points are awarded once a match kicks off and the final result is confirmed. Knockout matches are worth double.</p>
+            <p class="font-medium text-foreground/80">
+                <span class="font-bold text-pitch uppercase tracking-wider text-[9px] mr-1">Knockout Draws:</span>
+                If predicting a draw (e.g. 1–1) in a knockout match, you must select the team to advance. To earn exact score points (20 pts), both the score and the selected advancing team must match. Score matches but wrong team advances: 6 pts. Score mismatches but correct team advances: 14 pts.
+            </p>
+        </div>
     </div>
 </template>

@@ -253,6 +253,7 @@ test('awards correct winner points (3) for correct non-draw winner without exact
 test('awards correct draw points (5) for a correctly predicted draw', function () {
     $user = User::factory()->create();
     $fixture = makePredictionFixture([
+        'round' => 'group_stage',
         'status' => 'finished',
         'home_score' => 1,
         'away_score' => 1,
@@ -303,4 +304,97 @@ test('awards zero points for a completely wrong prediction', function () {
     expect($prediction->points_earned)->toBe(0)
         ->and($prediction->is_correct_winner)->toBeFalse()
         ->and($prediction->is_exact_score)->toBeFalse();
+});
+
+test('awards exact score points in knockout when score and penalty winner match', function () {
+    $user = User::factory()->create();
+    $fixture = makePredictionFixture([
+        'round' => 'round_of_16',
+        'status' => 'finished',
+        'home_score' => 1,
+        'away_score' => 1,
+        'winner' => 'home', // admin recorded penalty winner
+        'scheduled_at' => now()->subHour(),
+    ]);
+
+    Prediction::factory()->create([
+        'user_id' => $user->id,
+        'fixture_id' => $fixture->id,
+        'predicted_home_score' => 1,
+        'predicted_away_score' => 1,
+        'predicted_winner' => 'home',
+        'is_calculated' => false,
+    ]);
+
+    $service = app(PredictionService::class);
+    $service->calculatePointsForFixture($fixture);
+
+    $prediction = Prediction::where('user_id', $user->id)->where('fixture_id', $fixture->id)->first();
+
+    // exact score points (10) * knockout multiplier (1 in this test setup because makePredictionFixture sets knockout_multiplier to 1, wait, let's check: makePredictionFixture sets knockout_multiplier to 1. makeScoredFixture sets it to 2. Let's look at makePredictionFixture definition. It has knockout_multiplier = 1.)
+    expect($prediction->points_earned)->toBe(10)
+        ->and($prediction->is_exact_score)->toBeTrue()
+        ->and($prediction->is_correct_winner)->toBeTrue();
+});
+
+test('awards correct draw points in knockout when score matches but wrong team advanced on penalties', function () {
+    $user = User::factory()->create();
+    $fixture = makePredictionFixture([
+        'round' => 'round_of_16',
+        'status' => 'finished',
+        'home_score' => 1,
+        'away_score' => 1,
+        'winner' => 'away', // admin recorded penalty winner
+        'scheduled_at' => now()->subHour(),
+    ]);
+
+    Prediction::factory()->create([
+        'user_id' => $user->id,
+        'fixture_id' => $fixture->id,
+        'predicted_home_score' => 1,
+        'predicted_away_score' => 1,
+        'predicted_winner' => 'home', // wrong team predicted to advance
+        'is_calculated' => false,
+    ]);
+
+    $service = app(PredictionService::class);
+    $service->calculatePointsForFixture($fixture);
+
+    $prediction = Prediction::where('user_id', $user->id)->where('fixture_id', $fixture->id)->first();
+
+    // correct draw points (5) * knockout multiplier (1)
+    expect($prediction->points_earned)->toBe(5)
+        ->and($prediction->is_exact_score)->toBeFalse()
+        ->and($prediction->is_correct_winner)->toBeFalse();
+});
+
+test('awards correct draw points in knockout when winner matches but score is a different draw', function () {
+    $user = User::factory()->create();
+    $fixture = makePredictionFixture([
+        'round' => 'round_of_16',
+        'status' => 'finished',
+        'home_score' => 2,
+        'away_score' => 2,
+        'winner' => 'home',
+        'scheduled_at' => now()->subHour(),
+    ]);
+
+    Prediction::factory()->create([
+        'user_id' => $user->id,
+        'fixture_id' => $fixture->id,
+        'predicted_home_score' => 1,
+        'predicted_away_score' => 1,
+        'predicted_winner' => 'home',
+        'is_calculated' => false,
+    ]);
+
+    $service = app(PredictionService::class);
+    $service->calculatePointsForFixture($fixture);
+
+    $prediction = Prediction::where('user_id', $user->id)->where('fixture_id', $fixture->id)->first();
+
+    // correct winner (3) + margin bonus (5) * knockout multiplier (1) = 8
+    expect($prediction->points_earned)->toBe(8)
+        ->and($prediction->is_exact_score)->toBeFalse()
+        ->and($prediction->is_correct_winner)->toBeTrue();
 });

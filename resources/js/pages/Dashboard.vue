@@ -15,7 +15,9 @@ interface RecentPrediction {
     is_correct_winner: boolean
     predicted_home_score: number
     predicted_away_score: number
+    predicted_winner?: string | null
     fixture: {
+        round: string
         scheduled_at: string
         home_score: number | null
         away_score: number | null
@@ -128,6 +130,11 @@ function accuracy(correct: number, total: number): string {
                             </div>
                             <div class="text-xs text-muted-foreground mt-0.5">
                                 Your pick: <span class="font-semibold text-foreground tabular-nums">{{ prediction.predicted_home_score }} – {{ prediction.predicted_away_score }}</span>
+                                <template v-if="prediction.fixture.round !== 'group_stage' && prediction.predicted_home_score === prediction.predicted_away_score && prediction.predicted_winner">
+                                    <span class="text-[10px] font-normal text-muted-foreground ml-1">
+                                        ({{ prediction.predicted_winner === 'home' ? prediction.fixture.home_team.name : prediction.fixture.away_team.name }} on penalties)
+                                    </span>
+                                </template>
                                 <template v-if="prediction.fixture.home_score !== null">
                                     · Result: <span class="font-semibold text-foreground tabular-nums">{{ prediction.fixture.home_score }} – {{ prediction.fixture.away_score }}</span>
                                 </template>

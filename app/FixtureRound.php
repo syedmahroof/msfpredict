@@ -5,6 +5,7 @@ namespace App;
 enum FixtureRound: string
 {
     case GroupStage = 'group_stage';
+    case RoundOf32 = 'round_of_32';
     case RoundOf16 = 'round_of_16';
     case QuarterFinal = 'quarter_final';
     case SemiFinal = 'semi_final';
@@ -13,7 +14,8 @@ enum FixtureRound: string
 
     public function label(): string
     {
-        return match($this) {
+        return match ($this) {
+            self::RoundOf32 => 'Round of 32',
             self::GroupStage => 'Group Stage',
             self::RoundOf16 => 'Round of 16',
             self::QuarterFinal => 'Quarter-Final',
